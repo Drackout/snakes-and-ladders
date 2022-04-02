@@ -92,6 +92,30 @@ namespace SnakesAndLadders
         }
 
 
+        private static int MovePlayerTo(int[,] board, int[] player, int row, int col)
+        {
+            int status;
+
+            if (row > 0 && row < board.GetLength(0) && col > 0 && col < board.GetLength(1))
+            {
+                player[0] = row;
+                player[1] = col;
+                status = 0;
+            }
+            else
+            {
+                status = 1;
+            }
+
+            if (player[0] == board.Length - 1)
+            {
+                status = 2;
+            }
+
+            return status;
+        }
+
+
         /// <summary>
         /// Rolls a die and moves a player forward. The <paramref name="player"/>
         /// passed in is modified.
@@ -133,8 +157,7 @@ namespace SnakesAndLadders
             }
 
             // Set player position to new position
-            player[0] = newRow;
-            player[1] = newCol;
+            MovePlayerTo(board, player, newRow, newCol);
         }
 
     }
