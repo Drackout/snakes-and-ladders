@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Text;
 
 namespace SnakesAndLadders
@@ -144,6 +144,97 @@ namespace SnakesAndLadders
         }
 
 
+        private static int MovePlayerTo(int[,] board, int[] player, int row, int col)
+        {
+            int status;
+
+            if (row >= 0 && row < board.GetLength(0) && col >= 0 && col < board.GetLength(1))
+            {
+                player[0] = row;
+                player[1] = col;
+                status = 0;
+            }
+            else
+            {
+                status = 1;
+            }
+
+            if (player[0] == board.Length - 1)
+            {
+                status = 2;
+            }
+
+            return status;
+        }
+
+
+        private static int SpaceCellToNumber(int[,] board, int row, int col)
+        {
+            int number;
+            if (row % 2 == 0)
+            {
+                number = row * board.GetLength(1) + col;
+            }
+            else
+            {
+                number = row * board.GetLength(1) + (board.GetLength(1) - 1 - col);
+            }
+
+            return number;
+        }
+
+
+        private static int[] SpaceNumberToCell(int[,] board, int number)
+        {
+            int row, col;
+            row = number / board.GetLength(1);
+            if (row % 2 == 0)
+            {
+                col = number % board.GetLength(1);
+            }
+            else
+            {
+                col = board.GetLength(1) - 1 - number % board.GetLength(1);
+            }
+
+            return new int[] { row, col };
+        }
+
+
+        private static int[] SpaceAtDistance(int[,] board, int startRow, int startCol, int distance)
+        {
+            // Convert row and column to space number
+            int startNumber = SpaceCellToNumber(board, startRow, startCol);
+
+            // Add distance to travel
+            int endNumber = startNumber + distance;
+            if (endNumber < 0)
+                endNumber = 0;
+            else if (endNumber > board.Length)
+                endNumber = board.Length - 1;
+
+            // Convert back to row and column
+            int[] endCell = SpaceNumberToCell(board, endNumber);
+
+            return endCell;
+        }
+
+
+        private static int ReturnIfPastEnd(int[,] board, int space)
+        {
+            int newSpace = space;
+
+            if (newSpace > board.Length)
+            {
+                int finalSpace = board.Length - 1;
+                int excessMovement = newSpace - finalSpace;
+                newSpace = finalSpace - excessMovement;
+            }
+
+            return newSpace;
+        }
+
+
         /// <summary>
         /// Rolls a die and moves a player forward. The <paramref name="player"/>
         /// passed in is modified.
@@ -185,8 +276,7 @@ namespace SnakesAndLadders
             }
 
             // Set player position to new position
-            player[0] = newRow;
-            player[1] = newCol;
+            MovePlayerTo(board, player, newRow, newCol);
         }
 
     }
