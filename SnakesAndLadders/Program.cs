@@ -2,14 +2,19 @@
 
 namespace SnakesAndLadders
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        private static Random rng;
+
+        private static void Main(string[] args)
         {
 
             //Board Size Lines and Columns
             int boardX = 5;
             int boardY = 5;
+
+            // Init random number generator
+            rng = new Random();
 
             //int linhaDeJogo = boardX * boardY;
 
@@ -75,6 +80,16 @@ namespace SnakesAndLadders
             return 0;
         }
         */
+
+        /// <summary>
+        /// Rolls a die of some number of <paramref name="sides"/>.
+        /// </summary>
+        /// <param name="sides">Number of sides of the die.</param>
+        /// <returns>Integer between 1 and <paramref name="sides"/>.</returns>
+        private static int RollDie(int sides)
+        {
+            return rng.Next() % sides + 1;
+        }
 
     }
 }
