@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace SnakesAndLadders
 {
@@ -6,43 +7,42 @@ namespace SnakesAndLadders
     {
         private static Random rng;
 
+        private static string Player0="🐟";
+        private static int Player0Pos=5;
+        private static string Player1="🥩";
+        private static int Player1Pos=15;
+        
+        private static string CE1="🐍";
+        private static int CasaEsp1_1=13;
+        private static int CasaEsp1_2=12;
+        private static string CE2="🐯";
+        private static int CasaEsp2_1=18;
+        private static int CasaEsp2_2=17;
+
+
+
         private static void Main(string[] args)
         {
-
-            //Board Size Lines and Columns
+            // Board Lines and Columns
             int boardX = 5;
             int boardY = 5;
 
             // Init random number generator
             rng = new Random();
+            
+            // Set UTF-8 for emojis 
+            Console.OutputEncoding = Encoding.UTF8;
 
-            //int linhaDeJogo = boardX * boardY;
-
-            //Create the board with the Lines and Columns
+            // Create board with the Lines and Columns
             int[,] board = new int[boardX, boardY];
 
             board = FillBoard(board);
 
-            //DrawBoard(board);
-
-
-            //Draw Board | TODO Invert the array and write le zig zag
-            for (int i = 0; i < board.GetLength(0); i++)
-            {
-                for (int j = 0; j < board.GetLength(1); j++)
-                {
-                    Console.Write($"{board[i,j]} | ");
-                }
-                Console.WriteLine();
-            }
-
-            /*
-            board[0,1] = 1;
-            Console.WriteLine(board[0,1]);
-            */
-
+            DrawBoard(board);
 
         }
+
+        
 
         /// <summary>
         /// Get created board, fill it with values
@@ -63,23 +63,75 @@ namespace SnakesAndLadders
             return board;
         }
 
-        /*
+        
         /// <summary>
         /// Draws board to the console
         /// </summary>
         /// <param name="board">Board of the game</param>
         private static void DrawBoard(int[,] board){
-            for (int i = 0; i < board.GetLength(0); i++)
+            // Draw Lines
+            for (int i = board.GetLength(0)-1; i >= 0; i--)
             {
-                for (int j = 0; j < board.GetLength(1); j++)
+                Console.Write("|");
+                // Draw Columns
+                // If Even
+                if (i % 2 == 0)
                 {
-                    Console.Write($"{board[i,j]}");
+                    for (int j = 0; j < board.GetLength(1); j++)
+                    {
+                        DrawTile(board[i,j]);                        
+                    }
+                    Console.WriteLine();
                 }
-                Console.WriteLine();
+                // If Odd
+                else
+                {
+                    for (int j = board.GetLength(1)-1; j >= 0; j--)
+                    {
+                        DrawTile(board[i,j]);    
+                    }
+                    Console.WriteLine();
+                }
             }
-            return 0;
         }
-        */
+
+        /// <summary>
+        /// Receives the current position of the board
+        /// and draws in the tile, their number, the player or the ladders or snakes
+        /// </summary>
+        /// <param name="board">Current position being drawn</param>
+        private static void DrawTile(int board)
+        {
+            // Player Tiles
+            if(board == Player0Pos-1)
+            {
+                Console.Write($"{Player0,3:d} |");
+            }
+            else if (board == Player1Pos-1)
+            {
+                Console.Write($"{Player1,3:d} |");
+            }
+            // Special Tiles
+            else if (board == CasaEsp1_1-1 || board == CasaEsp1_2-1)
+            {
+                Console.Write($"{CE1,3:d} |");
+            }
+            else if (board == CasaEsp2_1-1 || board == CasaEsp2_2-1)
+            {
+                Console.Write($"{CE2,3:d} |");
+            }
+            // Normal Tiles
+            else
+            {
+                Console.Write($"{board+1,3:d} |");
+            }
+        }
+
+        
+        
+
+
+
 
         /// <summary>
         /// Rolls a die of some number of <paramref name="sides"/>.
