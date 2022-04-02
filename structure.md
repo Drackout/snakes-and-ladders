@@ -15,3 +15,10 @@ Este documento descreve a estrutura pensada para a implementação do jogo.
 - gerar tabuleiro
 - desenhar tabuleiro (se calhar numa secção à parte)
 - mover jogador
+
+Para construir a lógica para movimento do jogador, foram criados métodos para
+converter células da matriz do tabuleiro para posições numeradas e vice-versa.
+Desta forma, consegue-se mais facilmente realizar o movimento linear:
+converte-se a posição do jogador para um número, soma-se a distância a
+percorrer (pode ser negativa) e converte-se de volta para formato linha e coluna
+para atualizar a posição do jogador.
