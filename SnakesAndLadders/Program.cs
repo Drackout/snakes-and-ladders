@@ -116,6 +116,43 @@ namespace SnakesAndLadders
         }
 
 
+        private static int[] SpaceAtDistance(int[,] board, int startRow, int startCol, int distance)
+        {
+            int startNumber;
+
+            // Convert row and column to space number
+            if (startRow % 2 == 0)
+            {
+                startNumber = startRow * board.GetLength(1) + startCol;
+            }
+            else
+            {
+                startNumber = startRow * board.GetLength(1) + (board.GetLength(1) - 1 - startCol);
+            }
+
+            // Add distance to travel
+            int endNumber = startNumber + distance;
+            if (endNumber < 0)
+                endNumber = 0;
+            else if (endNumber > board.Length)
+                endNumber = board.Length - 1;
+
+            // Convert back to row and column
+            int endRow, endCol;
+            endRow = endNumber / board.GetLength(1);
+            if (endRow % 2 == 0)
+            {
+                endCol = endNumber % board.GetLength(1);
+            }
+            else
+            {
+                endCol = board.GetLength(1) - 1 - endNumber % board.GetLength(1);
+            }
+
+            return new int[] { endRow, endCol };
+        }
+
+
         /// <summary>
         /// Rolls a die and moves a player forward. The <paramref name="player"/>
         /// passed in is modified.
