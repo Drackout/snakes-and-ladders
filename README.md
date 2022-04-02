@@ -2,6 +2,10 @@
 
 Jogo de tabuleiro de corrida com dados implementado numa aplicação de consola .NET.
 
+![img1](LP1.png)
+![img1](LP1_Function.png)
+
+
 ## Autoria
 
 ### João Inácio (a22102115)
