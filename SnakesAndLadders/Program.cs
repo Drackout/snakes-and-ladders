@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace SnakesAndLadders
 {
@@ -96,7 +96,7 @@ namespace SnakesAndLadders
         {
             int status;
 
-            if (row > 0 && row < board.GetLength(0) && col > 0 && col < board.GetLength(1))
+            if (row >= 0 && row < board.GetLength(0) && col >= 0 && col < board.GetLength(1))
             {
                 player[0] = row;
                 player[1] = col;
