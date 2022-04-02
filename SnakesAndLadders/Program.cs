@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Text;
 
 namespace SnakesAndLadders
@@ -7,17 +7,20 @@ namespace SnakesAndLadders
     {
         private static Random rng;
 
-        private static string Player0="🐟";
-        private static int Player0Pos=5;
-        private static string Player1="🥩";
-        private static int Player1Pos=15;
+        private static string player0 = "🐟";
+        private static int player0Pos = 1;
+        private static string player1 = "🥩";
+        private static int player1Pos = 1;
+
+        private static int[][] players = new int[2][];
+
         
         private static string CE1="🐍";
-        private static int CasaEsp1_1=13;
-        private static int CasaEsp1_2=12;
+        private static int casaEsp1_1=13;
+        private static int casaEsp1_2=12;
         private static string CE2="🐯";
-        private static int CasaEsp2_1=18;
-        private static int CasaEsp2_2=17;
+        private static int casaEsp2_1=18;
+        private static int casaEsp2_2=17;
 
 
 
@@ -26,6 +29,12 @@ namespace SnakesAndLadders
             // Board Lines and Columns
             int boardX = 5;
             int boardY = 5;
+            
+            //Vars TESTE
+            int PlayerTurn = 0;
+            int RolledDie;
+            players[0] = new int[2] {0,1};
+            players[1] = new int[2] {0,1};
 
             // Init random number generator
             rng = new Random();
@@ -39,6 +48,39 @@ namespace SnakesAndLadders
             board = FillBoard(board);
 
             DrawBoard(board);
+
+
+            while (true)
+            {
+                // Show the player playing 
+                Console.WriteLine($"Player {PlayerTurn} Turn!");
+
+                // Check Extra Die
+                //RollDie(12);
+
+                // Check Cheat Die
+
+                // Roll Die
+                RolledDie = RollDie(6);
+
+                //Console.WriteLine(players[0][0]);
+                //Console.WriteLine(players[0][1]);
+                //Console.WriteLine(players[1][0]);
+                //Console.WriteLine(players[1][1]);
+                
+                // Move player to new position
+                MovePlayerTo(board, players[PlayerTurn], players[PlayerTurn][0], players[PlayerTurn][1]);
+
+
+
+                Console.ReadKey();
+
+
+            }
+
+
+
+
 
         }
 
@@ -103,20 +145,20 @@ namespace SnakesAndLadders
         private static void DrawTile(int board)
         {
             // Player Tiles
-            if(board == Player0Pos-1)
+            if(board == player0Pos-1)
             {
-                Console.Write($"{Player0,3:d} |");
+                Console.Write($"{player0,3:d} |");
             }
-            else if (board == Player1Pos-1)
+            else if (board == player1Pos-1)
             {
-                Console.Write($"{Player1,3:d} |");
+                Console.Write($"{player1,3:d} |");
             }
             // Special Tiles
-            else if (board == CasaEsp1_1-1 || board == CasaEsp1_2-1)
+            else if (board == casaEsp1_1-1 || board == casaEsp1_2-1)
             {
                 Console.Write($"{CE1,3:d} |");
             }
-            else if (board == CasaEsp2_1-1 || board == CasaEsp2_2-1)
+            else if (board == casaEsp2_1-1 || board == casaEsp2_2-1)
             {
                 Console.Write($"{CE2,3:d} |");
             }
@@ -235,6 +277,7 @@ namespace SnakesAndLadders
         }
 
 
+        /*
         /// <summary>
         /// Rolls a die and moves a player forward. The <paramref name="player"/>
         /// passed in is modified.
@@ -278,6 +321,7 @@ namespace SnakesAndLadders
             // Set player position to new position
             MovePlayerTo(board, player, newRow, newCol);
         }
+        */
 
     }
 }
