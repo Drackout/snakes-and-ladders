@@ -91,5 +91,39 @@ namespace SnakesAndLadders
             return rng.Next() % sides + 1;
         }
 
+
+        /// <summary>
+        /// Rolls a die and moves a player forward. The <paramref name="player"/>
+        /// passed in is modified.
+        /// </summary>
+        /// <param name="board">The board the player is in.</param>
+        /// <param name="player">The player to move.</param>
+        private static void MovePlayer(int [,] board, int[] player)
+        {
+            // Roll die to find spaces to move
+            int spacesToMove = RollDie(6);
+
+            for (int i = 0; i < spacesToMove; i++)
+            {
+                // If moving on an even row, go right...
+                // else, go left
+                if (player[0] % 2 == 0)
+                {
+                    player[1]++;
+                }
+                else
+                {
+                    player[1]--;
+                }
+
+                // If player goes out of bounds of a board row,
+                // move it to the next row
+                if (player[1] < 0 || player[1] >= board.GetLength(1))
+                {
+                    player[0]++;
+                }
+            }
+        }
+
     }
 }
