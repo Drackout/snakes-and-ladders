@@ -100,6 +100,8 @@ namespace SnakesAndLadders
         /// <param name="player">The player to move.</param>
         private static void MovePlayer(int [,] board, int[] player)
         {
+            int newRow = player[0], newCol = player[1];
+
             // Roll die to find spaces to move
             int spacesToMove = RollDie(6);
 
@@ -107,22 +109,32 @@ namespace SnakesAndLadders
             {
                 // If moving on an even row, go right...
                 // else, go left
-                if (player[0] % 2 == 0)
+                if (newRow % 2 == 0)
                 {
-                    player[1]++;
+                    newCol++;
                 }
                 else
                 {
-                    player[1]--;
+                    newCol--;
                 }
 
-                // If player goes out of bounds of a board row,
-                // move it to the next row
-                if (player[1] < 0 || player[1] >= board.GetLength(1))
+                // If player goes out of bounds of a row,
+                // move it to the first column of the next row
+                if (newCol < 0)
                 {
-                    player[0]++;
+                    newCol = 0;
+                    newRow++;
+                }
+                else if (newCol >= board.GetLength(1))
+                {
+                    newCol = board.GetLength(1) - 1;
+                    newRow++;
                 }
             }
+
+            // Set player position to new position
+            player[0] = newRow;
+            player[1] = newCol;
         }
 
     }
