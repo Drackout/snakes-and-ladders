@@ -168,6 +168,21 @@ namespace SnakesAndLadders
         }
 
 
+        private static int ReturnIfPastEnd(int[,] board, int space)
+        {
+            int newSpace = space;
+
+            if (newSpace > board.Length)
+            {
+                int finalSpace = board.Length - 1;
+                int excessMovement = newSpace - finalSpace;
+                newSpace = finalSpace - excessMovement;
+            }
+
+            return newSpace;
+        }
+
+
         /// <summary>
         /// Rolls a die and moves a player forward. The <paramref name="player"/>
         /// passed in is modified.
