@@ -144,6 +144,17 @@ namespace SnakesAndLadders
         }
 
 
+        /// <summary>
+        /// Updates the player's position.
+        /// </summary>
+        /// <param name="board">Game board where the player is.</param>
+        /// <param name="player">The player to move.</param>
+        /// <param name="row">The row of the cell to move to.</param>
+        /// <param name="col">The column of the cell to move to.</param>
+        /// <returns>
+        /// A status code: 0 for successful movement, 1 for forbidden movement,
+        /// 2 for landing on the final space. (is this useful?)
+        /// </returns>
         private static int MovePlayerTo(int[,] board, int[] player, int row, int col)
         {
             int status;
@@ -168,6 +179,13 @@ namespace SnakesAndLadders
         }
 
 
+        /// <summary>
+        /// Converts a space in cell format to number format.
+        /// </summary>
+        /// <param name="board">The board where the space is.</param>
+        /// <param name="row">The row of the cell.</param>
+        /// <param name="col">The column of the cell.</param>
+        /// <returns>The space represented as a number.</returns>
         private static int SpaceCellToNumber(int[,] board, int row, int col)
         {
             int number;
@@ -184,6 +202,12 @@ namespace SnakesAndLadders
         }
 
 
+        /// <summary>
+        /// Converts a space in number format to cell format.
+        /// </summary>
+        /// <param name="board">The board where the space is.</param>
+        /// <param name="number">The number of the space.</param>
+        /// <returns>The space represented as a cell.</returns>
         private static int[] SpaceNumberToCell(int[,] board, int number)
         {
             int row, col;
