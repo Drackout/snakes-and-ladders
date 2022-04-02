@@ -116,19 +116,43 @@ namespace SnakesAndLadders
         }
 
 
-        private static int[] SpaceAtDistance(int[,] board, int startRow, int startCol, int distance)
+        private static int SpaceCellToNumber(int[,] board, int row, int col)
         {
-            int startNumber;
-
-            // Convert row and column to space number
-            if (startRow % 2 == 0)
+            int number;
+            if (row % 2 == 0)
             {
-                startNumber = startRow * board.GetLength(1) + startCol;
+                number = row * board.GetLength(1) + col;
             }
             else
             {
-                startNumber = startRow * board.GetLength(1) + (board.GetLength(1) - 1 - startCol);
+                number = row * board.GetLength(1) + (board.GetLength(1) - 1 - col);
             }
+
+            return number;
+        }
+
+
+        private static int[] SpaceNumberToCell(int[,] board, int number)
+        {
+            int row, col;
+            row = number / board.GetLength(1);
+            if (row % 2 == 0)
+            {
+                col = number % board.GetLength(1);
+            }
+            else
+            {
+                col = board.GetLength(1) - 1 - number % board.GetLength(1);
+            }
+
+            return new int[] { row, col };
+        }
+
+
+        private static int[] SpaceAtDistance(int[,] board, int startRow, int startCol, int distance)
+        {
+            // Convert row and column to space number
+            int startNumber = SpaceCellToNumber(board, startRow, startCol);
 
             // Add distance to travel
             int endNumber = startNumber + distance;
@@ -138,18 +162,9 @@ namespace SnakesAndLadders
                 endNumber = board.Length - 1;
 
             // Convert back to row and column
-            int endRow, endCol;
-            endRow = endNumber / board.GetLength(1);
-            if (endRow % 2 == 0)
-            {
-                endCol = endNumber % board.GetLength(1);
-            }
-            else
-            {
-                endCol = board.GetLength(1) - 1 - endNumber % board.GetLength(1);
-            }
+            int[] endCell = SpaceNumberToCell(board, endNumber);
 
-            return new int[] { endRow, endCol };
+            return endCell;
         }
 
 
