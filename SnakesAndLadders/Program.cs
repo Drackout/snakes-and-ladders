@@ -297,6 +297,14 @@ namespace SnakesAndLadders
         }
 
 
+        /// <summary>
+        /// Finds the space a certain distance from a starting space.
+        /// </summary>
+        /// <param name="board">The board the spaces belong to.</param>
+        /// <param name="startRow">The row of the starting space.</param>
+        /// <param name="startCol">The column of the starting space.</param>
+        /// <param name="distance">The distance in spaces to travel (can be negative).</param>
+        /// <returns>The space found, in cell format.</returns>
         private static int[] SpaceAtDistance(int[,] board, int startRow, int startCol, int distance)
         {
             // Convert row and column to space number
@@ -315,7 +323,17 @@ namespace SnakesAndLadders
             return endCell;
         }
 
-
+        
+        /// <summary>
+        /// Finds correct space to move to if player moved over
+        /// the end of the board.
+        /// </summary>
+        /// <param name="board">The board where movement was attempted.</param>
+        /// <param name="space">The number of the space.</param>
+        /// <returns>
+        /// The space the player should be in after movement,
+        /// as a number.
+        /// </returns>
         private static int ReturnIfPastEnd(int[,] board, int space)
         {
             int newSpace = space;
