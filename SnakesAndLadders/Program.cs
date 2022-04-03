@@ -33,8 +33,8 @@ namespace SnakesAndLadders
             //Vars TESTE
             int PlayerTurn = 0;
             int RolledDie;
-            players[0] = new int[2] {0,1};
-            players[1] = new int[2] {0,1};
+            players[0] = new int[2] {0,0};
+            players[1] = new int[2] {0,0};
 
             // Init random number generator
             rng = new Random();
@@ -52,6 +52,16 @@ namespace SnakesAndLadders
 
             while (true)
             {
+                //Switch Player
+                if (PlayerTurn == 0)
+                {
+                    PlayerTurn = 1;
+                }
+                else
+                {
+                    PlayerTurn = 0;
+                }
+                
                 // Show the player playing 
                 Console.WriteLine($"Player {PlayerTurn} Turn!");
 
@@ -67,14 +77,34 @@ namespace SnakesAndLadders
                 //Console.WriteLine(players[0][1]);
                 //Console.WriteLine(players[1][0]);
                 //Console.WriteLine(players[1][1]);
+
+
+                //SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie),
+                //SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie)
                 
                 // Move player to new position
-                MovePlayerTo(board, players[PlayerTurn], players[PlayerTurn][0], players[PlayerTurn][1]);
+                //Console.WriteLine(MovePlayerTo(board, players[PlayerTurn], 1, 1));
+                int[] AAAA = SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie);
 
 
+                Console.WriteLine(RolledDie);
+                Console.WriteLine(AAAA[0]);
+                Console.WriteLine(AAAA[1]);
+                
+                Console.WriteLine(board[AAAA[0], AAAA[1]]);
+                
+                if (PlayerTurn == 0)
+                {
+                    player0Pos += board[AAAA[0], AAAA[1]];
+                }
+                else
+                {
+                    player1Pos += board[AAAA[0], AAAA[1]];
+                }
 
                 Console.ReadKey();
 
+                DrawBoard(board);
 
             }
 
