@@ -8,8 +8,8 @@ namespace SnakesAndLadders
         private static Random rng;
 
         private static string player0 = "🐟";
-        private static int player0Pos = 1;
         private static string player1 = "🥩";
+        private static int player0Pos = 1;
         private static int player1Pos = 1;
 
         private static int[][] players = new int[2][];
@@ -47,12 +47,83 @@ namespace SnakesAndLadders
 
             board = FillBoard(board);
 
-            DrawBoard(board);
+            //DrawBoard(board);
 
 
+            // Game Loop
             while (true)
             {
-                //Switch Player
+                
+                
+                // Show the current player 
+                Console.WriteLine($"Player {PlayerTurn} Turn!");
+
+                // Check Extra Die
+                //RollDie(12);
+
+                // Check Cheat Die
+
+                // Roll Normal Die
+                RolledDie = RollDie(6);
+
+                // Gets the distance the player will walk
+                int[] DistanceValues = SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie);
+
+                Console.WriteLine(RolledDie);
+                Console.WriteLine(DistanceValues[0]);
+                Console.WriteLine(DistanceValues[1]);
+
+                
+
+                //Check player turn
+                if (PlayerTurn == 0)
+                {
+                    // Player walks the distance
+                    player0Pos += SpaceCellToNumber(board, DistanceValues[0], DistanceValues[1]);
+
+                    // If player walks past the limit of the board
+                    player0Pos = ReturnIfPastEnd(board, player0Pos);
+
+                    // Verifies if current player's on same tile
+                    if(VerifySamePosition(player0Pos, player1Pos) == 1 && player1Pos != 1)
+                    {
+                        // Oponent returns 1 tile
+                        --player1Pos;
+                    }
+                }
+                else
+                {
+                    // Player walks the distance
+                    player1Pos += SpaceCellToNumber(board, DistanceValues[0], DistanceValues[1]);
+                    
+                    // If player walks past the limit of the board
+                    player1Pos = ReturnIfPastEnd(board, player1Pos);
+
+                    // Verifies if current player's on same tile
+                    if(VerifySamePosition(player0Pos, player1Pos) == 1 && player0Pos != 1)
+                    {
+                        // Oponent returns 1 tile
+                        --player0Pos;
+                    }
+                }
+
+
+
+                // Draw board with updated player locations
+                DrawBoard(board);
+                
+                // Check which Player won by checking the most recent reaching the end
+                if (player0Pos == board.Length || player1Pos == board.Length)
+                {
+                    Console.WriteLine($"Player {PlayerTurn} Won!");
+                    Console.WriteLine("Congrats!!");
+                    break;
+                }
+
+                // Let the player see the new movement that happened before proceeding
+                Console.ReadKey();
+
+                //Switch Player Turns
                 if (PlayerTurn == 0)
                 {
                     PlayerTurn = 1;
@@ -61,50 +132,6 @@ namespace SnakesAndLadders
                 {
                     PlayerTurn = 0;
                 }
-                
-                // Show the player playing 
-                Console.WriteLine($"Player {PlayerTurn} Turn!");
-
-                // Check Extra Die
-                //RollDie(12);
-
-                // Check Cheat Die
-
-                // Roll Die
-                RolledDie = RollDie(6);
-
-                //Console.WriteLine(players[0][0]);
-                //Console.WriteLine(players[0][1]);
-                //Console.WriteLine(players[1][0]);
-                //Console.WriteLine(players[1][1]);
-
-
-                //SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie),
-                //SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie)
-                
-                // Move player to new position
-                //Console.WriteLine(MovePlayerTo(board, players[PlayerTurn], 1, 1));
-                int[] AAAA = SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie);
-
-
-                Console.WriteLine(RolledDie);
-                Console.WriteLine(AAAA[0]);
-                Console.WriteLine(AAAA[1]);
-                
-                Console.WriteLine(board[AAAA[0], AAAA[1]]);
-                
-                if (PlayerTurn == 0)
-                {
-                    player0Pos += board[AAAA[0], AAAA[1]];
-                }
-                else
-                {
-                    player1Pos += board[AAAA[0], AAAA[1]];
-                }
-
-                Console.ReadKey();
-
-                DrawBoard(board);
 
             }
 
@@ -330,52 +357,24 @@ namespace SnakesAndLadders
             return newSpace;
         }
 
-
-        /*
         /// <summary>
-        /// Rolls a die and moves a player forward. The <paramref name="player"/>
-        /// passed in is modified.
+        /// Compares if the given players positions is the same
         /// </summary>
-        /// <param name="board">The board the player is in.</param>
-        /// <param name="player">The player to move.</param>
-        private static void MovePlayer(int [,] board, int[] player)
+        /// <param name="p0Position">Player 0 board position</param>
+        /// <param name="p1Position">Player 1 board position</param>
+        /// <returns>0 on different tiles, 1 on same tile</returns>
+        private static int VerifySamePosition(int p0Position, int p1Position)
         {
-            int newRow = player[0], newCol = player[1];
-
-            // Roll die to find spaces to move
-            int spacesToMove = RollDie(6);
-
-            for (int i = 0; i < spacesToMove; i++)
+            if (p0Position != p1Position)
             {
-                // If moving on an even row, go right...
-                // else, go left
-                if (newRow % 2 == 0)
-                {
-                    newCol++;
-                }
-                else
-                {
-                    newCol--;
-                }
-
-                // If player goes out of bounds of a row,
-                // move it to the first column of the next row
-                if (newCol < 0)
-                {
-                    newCol = 0;
-                    newRow++;
-                }
-                else if (newCol >= board.GetLength(1))
-                {
-                    newCol = board.GetLength(1) - 1;
-                    newRow++;
-                }
+                return 0;
+            } 
+            else
+            {
+                return 1;
             }
-
-            // Set player position to new position
-            MovePlayerTo(board, player, newRow, newCol);
         }
-        */
+
 
     }
 }
