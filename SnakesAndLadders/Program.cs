@@ -53,8 +53,6 @@ namespace SnakesAndLadders
             // Game Loop
             while (true)
             {
-                
-                
                 // Show the current player 
                 Console.WriteLine($"Player {PlayerTurn} Turn!");
 
@@ -72,8 +70,6 @@ namespace SnakesAndLadders
                 Console.WriteLine(RolledDie);
                 Console.WriteLine(DistanceValues[0]);
                 Console.WriteLine(DistanceValues[1]);
-
-                
 
                 //Check player turn
                 if (PlayerTurn == 0)
@@ -132,13 +128,7 @@ namespace SnakesAndLadders
                 {
                     PlayerTurn = 0;
                 }
-
             }
-
-
-
-
-
         }
 
 
@@ -167,6 +157,14 @@ namespace SnakesAndLadders
         /// </summary>
         /// <param name="board">Board of the game</param>
         private static void DrawBoard(int[,] board){
+            int snakeNumber = rng.Next(2, 4);
+            int ladderNumber = rng.Next(2, 4);
+            int boostNumber = rng.Next(0, 2);
+            int uTurnNumber = rng.Next(0, 2);
+            int cobra = 1;
+
+            
+
             // Draw Lines
             for (int i = board.GetLength(0)-1; i >= 0; i--)
             {
@@ -177,7 +175,7 @@ namespace SnakesAndLadders
                 {
                     for (int j = 0; j < board.GetLength(1); j++)
                     {
-                        DrawTile(board[i,j]);                        
+                        DrawTile(board[i,j]);       
                     }
                     Console.WriteLine();
                 }
@@ -186,7 +184,7 @@ namespace SnakesAndLadders
                 {
                     for (int j = board.GetLength(1)-1; j >= 0; j--)
                     {
-                        DrawTile(board[i,j]);    
+                        DrawTile(board[i,j]);  
                     }
                     Console.WriteLine();
                 }
