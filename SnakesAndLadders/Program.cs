@@ -431,5 +431,69 @@ namespace SnakesAndLadders
 
             return newSpace;
         }
+
+
+        /// <summary>
+        /// Generates a random board based on game rules.
+        /// </summary>
+        /// <param name="width">The number of spaces in a row.</param>
+        /// <param name="height">The number of spaces in a column.</param>
+        /// <returns>The generated board.</returns>
+        private static SpaceType[,] GenerateBoard(int width, int height)
+        {
+            // Initialized with SpaceType.Normal by default
+            SpaceType[,] board = new SpaceType[height, width];
+
+            int size = width * height;
+
+            // Add snakes
+            int nOfSnakes = rng.Next() % 3 + 2;
+            for (int i = 0; i < nOfSnakes; i++)
+            {
+                // Take rows 1 to `height`
+                int row = rng.Next() % (height - 1) + 1;
+
+                int col = rng.Next() % width;
+                board[row, col] = SpaceType.Snake;
+            }
+
+            // Add ladders
+            int nOfLadders = rng.Next() % 3 + 2;
+            for (int i = 0; i < nOfLadders; i++)
+            {
+                // Take rows 0 to (`height` - 1)
+                int row = rng.Next() % (height - 1);
+                
+                int col = rng.Next() % width;
+                board[row, col] = SpaceType.Ladder;
+            }
+
+            // Add cobra
+            int cobraSpace = rng.Next() % (height - 2) + 2;
+            
+            // Add boost
+            int nOfBoosts = rng.Next() % 3;
+            for (int i = 0; i < nOfBoosts; i++)
+            {
+                // Take rows 0 to (`height` - 1)
+                int row = rng.Next() % (height - 1);
+                
+                int col = rng.Next() % width;
+                board[row, col] = SpaceType.Boost;
+            }
+
+            // Add u-turn
+            int nOfUTurn = rng.Next() % 3;
+            for (int i = 0; i < nOfSnakes; i++)
+            {
+                // Take rows 1 to `height`
+                int row = rng.Next() % (height - 1) + 1;
+
+                int col = rng.Next() % width;
+                board[row, col] = SpaceType.UTurn;
+            }
+
+            return board;
+        }
     }
 }

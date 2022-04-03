@@ -8,11 +8,13 @@ Jogo de tabuleiro de corrida com dados implementado numa aplicação de consola 
 
 - Implementação de funções para movimento do jogador
 - Explicação da estrutura do programa
+- Geração do tabuleiro
 
 ### Micael Teixeira (a22103816)
 
 - Fluxogramas do programa
 - Implementação do *game loop*
+- UI
 
 ### Repositório
 
