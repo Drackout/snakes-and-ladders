@@ -99,8 +99,6 @@ namespace SnakesAndLadders
                     }
                 }
 
-
-
                 // Draw board with updated player locations
                 DrawBoard(board);
                 
