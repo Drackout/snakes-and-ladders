@@ -347,5 +347,50 @@ namespace SnakesAndLadders
 
             return newSpace;
         }
+
+
+        /// <summary>
+        /// Find new position of player after activating
+        /// special effect of space.
+        /// </summary>
+        /// <param name="board">The board where the player is.</param>
+        /// <param name="type">The type of space the player landed on.</param>
+        /// <param name="startSpace">
+        /// The number of the space the player landed on.
+        /// </param>
+        /// <returns>
+        /// The position the player should move to next.
+        /// </returns>
+        private static int ActivateSpace(int[,] board, SpaceType type, int startSpace)
+        {
+            int newSpace = startSpace;
+
+            if (type == SpaceType.Snake)
+            {
+                int[] spaceCell = SpaceNumberToCell(board, startSpace);
+                spaceCell[0] = spaceCell[0] - 1;
+                newSpace = SpaceCellToNumber(board, spaceCell[0], spaceCell[1]);
+            }
+            else if (type == SpaceType.Ladder)
+            {
+                int[] spaceCell = SpaceNumberToCell(board, startSpace);
+                spaceCell[0] = spaceCell[0] + 1;
+                newSpace = SpaceCellToNumber(board, spaceCell[0], spaceCell[1]);
+            }
+            else if (type == SpaceType.Cobra)
+            {
+                newSpace = 0;
+            }
+            else if (type == SpaceType.UTurn)
+            {
+                newSpace = newSpace - 2;
+            }
+            else if (type == SpaceType.Boost)
+            {
+                newSpace = newSpace + 2;
+            }
+
+            return newSpace;
+        }
     }
 }
