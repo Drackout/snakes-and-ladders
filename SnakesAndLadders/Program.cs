@@ -141,7 +141,6 @@ namespace SnakesAndLadders
 
         }
 
-        
 
         /// <summary>
         /// Get created board, fill it with values
@@ -194,6 +193,7 @@ namespace SnakesAndLadders
             }
         }
 
+
         /// <summary>
         /// Receives the current position of the board
         /// and draws in the tile, their number, the player or the ladders or snakes
@@ -227,11 +227,6 @@ namespace SnakesAndLadders
         }
 
         
-        
-
-
-
-
         /// <summary>
         /// Rolls a die of some number of <paramref name="sides"/>.
         /// </summary>
@@ -324,6 +319,14 @@ namespace SnakesAndLadders
         }
 
 
+        /// <summary>
+        /// Finds the space a certain distance from a starting space.
+        /// </summary>
+        /// <param name="board">The board the spaces belong to.</param>
+        /// <param name="startRow">The row of the starting space.</param>
+        /// <param name="startCol">The column of the starting space.</param>
+        /// <param name="distance">The distance in spaces to travel (can be negative).</param>
+        /// <returns>The space found, in cell format.</returns>
         private static int[] SpaceAtDistance(int[,] board, int startRow, int startCol, int distance)
         {
             // Convert row and column to space number
@@ -342,7 +345,17 @@ namespace SnakesAndLadders
             return endCell;
         }
 
-
+        
+        /// <summary>
+        /// Finds correct space to move to if player moved over
+        /// the end of the board.
+        /// </summary>
+        /// <param name="board">The board where movement was attempted.</param>
+        /// <param name="space">The number of the space.</param>
+        /// <returns>
+        /// The space the player should be in after movement,
+        /// as a number.
+        /// </returns>
         private static int ReturnIfPastEnd(int[,] board, int space)
         {
             int newSpace = space;
@@ -356,6 +369,7 @@ namespace SnakesAndLadders
 
             return newSpace;
         }
+
 
         /// <summary>
         /// Compares if the given players positions is the same
@@ -376,5 +390,48 @@ namespace SnakesAndLadders
         }
 
 
+        /// <summary>
+        /// Find new position of player after activating
+        /// special effect of space.
+        /// </summary>
+        /// <param name="board">The board where the player is.</param>
+        /// <param name="type">The type of space the player landed on.</param>
+        /// <param name="startSpace">
+        /// The number of the space the player landed on.
+        /// </param>
+        /// <returns>
+        /// The position the player should move to next.
+        /// </returns>
+        private static int ActivateSpace(int[,] board, SpaceType type, int startSpace)
+        {
+            int newSpace = startSpace;
+
+            if (type == SpaceType.Snake)
+            {
+                int[] spaceCell = SpaceNumberToCell(board, startSpace);
+                spaceCell[0] = spaceCell[0] - 1;
+                newSpace = SpaceCellToNumber(board, spaceCell[0], spaceCell[1]);
+            }
+            else if (type == SpaceType.Ladder)
+            {
+                int[] spaceCell = SpaceNumberToCell(board, startSpace);
+                spaceCell[0] = spaceCell[0] + 1;
+                newSpace = SpaceCellToNumber(board, spaceCell[0], spaceCell[1]);
+            }
+            else if (type == SpaceType.Cobra)
+            {
+                newSpace = 0;
+            }
+            else if (type == SpaceType.UTurn)
+            {
+                newSpace = newSpace - 2;
+            }
+            else if (type == SpaceType.Boost)
+            {
+                newSpace = newSpace + 2;
+            }
+
+            return newSpace;
+        }
     }
 }
