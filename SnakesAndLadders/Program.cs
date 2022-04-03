@@ -15,14 +15,11 @@ namespace SnakesAndLadders
         private static int[][] players = new int[2][];
 
         
-        private static string CE1="🐍";
-        private static int casaEsp1_1=13;
-        private static int casaEsp1_2=12;
-        private static string CE2="🐯";
-        private static int casaEsp2_1=18;
-        private static int casaEsp2_2=17;
-
-
+        private static string emoSnake="🐍";
+        private static string emoLadder="🟤";
+        private static string emoCobra="🐉";
+        private static string emoUTurn="↩️";
+        private static string emoBoost="⏩";
 
         private static void Main(string[] args)
         {
@@ -43,9 +40,9 @@ namespace SnakesAndLadders
             Console.OutputEncoding = Encoding.UTF8;
 
             // Create board with the Lines and Columns
-            int[,] board = new int[boardX, boardY];
+            SpaceType[,] board = GenerateBoard(boardX, boardY);
 
-            board = FillBoard(board);
+            //board = FillBoard(board);
 
             //DrawBoard(board);
 
@@ -67,9 +64,8 @@ namespace SnakesAndLadders
                 // Gets the distance the player will walk
                 int[] DistanceValues = SpaceAtDistance(board, players[PlayerTurn][0], players[PlayerTurn][1], RolledDie);
 
-                Console.WriteLine(RolledDie);
-                Console.WriteLine(DistanceValues[0]);
-                Console.WriteLine(DistanceValues[1]);
+                Console.WriteLine($"Rolled: {RolledDie}");
+                Console.WriteLine();
 
                 //Check player turn
                 if (PlayerTurn == 0)
@@ -156,38 +152,19 @@ namespace SnakesAndLadders
         /// Draws board to the console
         /// </summary>
         /// <param name="board">Board of the game</param>
-        private static void DrawBoard(int[,] board){
-            int snakeNumber = rng.Next(2, 4);
-            int ladderNumber = rng.Next(2, 4);
-            int boostNumber = rng.Next(0, 2);
-            int uTurnNumber = rng.Next(0, 2);
-            int cobra = 1;
-
-            
-
+        private static void DrawBoard(SpaceType[,] board)
+        {
             // Draw Lines
             for (int i = board.GetLength(0)-1; i >= 0; i--)
             {
                 Console.Write("|");
                 // Draw Columns
                 // If Even
-                if (i % 2 == 0)
+                for (int j = 0; j < board.GetLength(1); j++)
                 {
-                    for (int j = 0; j < board.GetLength(1); j++)
-                    {
-                        DrawTile(board[i,j]);       
-                    }
-                    Console.WriteLine();
+                    DrawTile(board, i, j);       
                 }
-                // If Odd
-                else
-                {
-                    for (int j = board.GetLength(1)-1; j >= 0; j--)
-                    {
-                        DrawTile(board[i,j]);  
-                    }
-                    Console.WriteLine();
-                }
+                Console.WriteLine();                
             }
         }
 
@@ -197,37 +174,53 @@ namespace SnakesAndLadders
         /// and draws in the tile, their number, the player or the ladders or snakes
         /// </summary>
         /// <param name="board">Current position being drawn</param>
-        private static void DrawTile(int board)
+        private static void DrawTile(SpaceType[,] board, int row, int col)
         {
+            int numberSpace = SpaceCellToNumber(board, row, col);
+
             // Player Tiles
-            if(board == player0Pos-1)
+            if(numberSpace == player0Pos-1)
             {
-                Console.Write($"{player0,3:d} |");
+                Console.Write($"{player0,4:d} |");
             }
-            else if (board == player1Pos-1)
+            else if (numberSpace == player1Pos-1)
             {
-                Console.Write($"{player1,3:d} |");
+                Console.Write($"{player1,4:d} |");
             }
+
             // Special Tiles
-            else if (board == casaEsp1_1-1 || board == casaEsp1_2-1)
+            else if (board[row, col] == SpaceType.Snake)
             {
-                Console.Write($"{CE1,3:d} |");
+                Console.Write($"{emoSnake,4:d} |");
             }
-            else if (board == casaEsp2_1-1 || board == casaEsp2_2-1)
+            else if (board[row, col] == SpaceType.Ladder)
             {
-                Console.Write($"{CE2,3:d} |");
+                Console.Write($"{emoLadder,4:d} |");
             }
+            else if (board[row, col] == SpaceType.Cobra)
+            {
+                Console.Write($"{emoCobra,4:d} |");
+            }
+            else if (board[row, col] == SpaceType.Boost)
+            {
+                Console.Write($"{emoBoost,4:d} |");
+            }
+            else if (board[row, col] == SpaceType.UTurn)
+            {
+                Console.Write($"{emoUTurn,4:d} |");
+            }
+
             // Normal Tiles
-            else
+            else if(board[row,col] == SpaceType.Normal)
             {
-                Console.Write($"{board+1,3:d} |");
+                Console.Write($"{numberSpace+1,4:d} |");
             }
         }
 
         
         /// <summary>
         /// Rolls a die of some number of <paramref name="sides"/>.
-        /// </summary>
+        /// /// </summary>
         /// <param name="sides">Number of sides of the die.</param>
         /// <returns>Integer between 1 and <paramref name="sides"/>.</returns>
         private static int RollDie(int sides)
@@ -247,7 +240,7 @@ namespace SnakesAndLadders
         /// A status code: 0 for successful movement, 1 for forbidden movement,
         /// 2 for landing on the final space. (is this useful?)
         /// </returns>
-        private static int MovePlayerTo(int[,] board, int[] player, int row, int col)
+        private static int MovePlayerTo(SpaceType[,] board, int[] player, int row, int col)
         {
             int status;
 
@@ -278,7 +271,7 @@ namespace SnakesAndLadders
         /// <param name="row">The row of the cell.</param>
         /// <param name="col">The column of the cell.</param>
         /// <returns>The space represented as a number.</returns>
-        private static int SpaceCellToNumber(int[,] board, int row, int col)
+        private static int SpaceCellToNumber(SpaceType[,] board, int row, int col)
         {
             int number;
             if (row % 2 == 0)
@@ -300,7 +293,7 @@ namespace SnakesAndLadders
         /// <param name="board">The board where the space is.</param>
         /// <param name="number">The number of the space.</param>
         /// <returns>The space represented as a cell.</returns>
-        private static int[] SpaceNumberToCell(int[,] board, int number)
+        private static int[] SpaceNumberToCell(SpaceType[,] board, int number)
         {
             int row, col;
             row = number / board.GetLength(1);
@@ -325,7 +318,7 @@ namespace SnakesAndLadders
         /// <param name="startCol">The column of the starting space.</param>
         /// <param name="distance">The distance in spaces to travel (can be negative).</param>
         /// <returns>The space found, in cell format.</returns>
-        private static int[] SpaceAtDistance(int[,] board, int startRow, int startCol, int distance)
+        private static int[] SpaceAtDistance(SpaceType[,] board, int startRow, int startCol, int distance)
         {
             // Convert row and column to space number
             int startNumber = SpaceCellToNumber(board, startRow, startCol);
@@ -354,7 +347,7 @@ namespace SnakesAndLadders
         /// The space the player should be in after movement,
         /// as a number.
         /// </returns>
-        private static int ReturnIfPastEnd(int[,] board, int space)
+        private static int ReturnIfPastEnd(SpaceType[,] board, int space)
         {
             int newSpace = space;
 
@@ -400,7 +393,7 @@ namespace SnakesAndLadders
         /// <returns>
         /// The position the player should move to next.
         /// </returns>
-        private static int ActivateSpace(int[,] board, SpaceType type, int startSpace)
+        private static int ActivateSpace(SpaceType[,] board, SpaceType type, int startSpace)
         {
             int newSpace = startSpace;
 
@@ -447,7 +440,7 @@ namespace SnakesAndLadders
             int size = width * height;
 
             // Add snakes
-            int nOfSnakes = rng.Next() % 3 + 2;
+            int nOfSnakes = rng.Next() % 3 + 2; 
             for (int i = 0; i < nOfSnakes; i++)
             {
                 // Take rows 1 to `height`
@@ -455,6 +448,7 @@ namespace SnakesAndLadders
 
                 int col = rng.Next() % width;
                 board[row, col] = SpaceType.Snake;
+
             }
 
             // Add ladders
