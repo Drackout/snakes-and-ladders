@@ -6,13 +6,17 @@ Jogo de tabuleiro de corrida com dados implementado numa aplicação de consola 
 
 ### João Inácio (a22102115)
 
-- tarefa 1
-- tarefa 2
+- Implementação de funções para movimento do jogador
+- Explicação da estrutura do programa
 
 ### Micael Teixeira (a22103816)
 
-- tarefa 1
-- tarefa 2
+- Fluxogramas do programa
+- Implementação do *game loop*
+
+### Repositório
+
+O repositório remoto utilizado encontra-se em https://github.com/Drackout/snakes-and-ladders.
 
 ## Arquitetura da solução
 
