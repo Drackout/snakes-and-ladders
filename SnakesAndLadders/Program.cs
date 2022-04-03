@@ -329,53 +329,5 @@ namespace SnakesAndLadders
 
             return newSpace;
         }
-
-
-        /*
-        /// <summary>
-        /// Rolls a die and moves a player forward. The <paramref name="player"/>
-        /// passed in is modified.
-        /// </summary>
-        /// <param name="board">The board the player is in.</param>
-        /// <param name="player">The player to move.</param>
-        private static void MovePlayer(int [,] board, int[] player)
-        {
-            int newRow = player[0], newCol = player[1];
-
-            // Roll die to find spaces to move
-            int spacesToMove = RollDie(6);
-
-            for (int i = 0; i < spacesToMove; i++)
-            {
-                // If moving on an even row, go right...
-                // else, go left
-                if (newRow % 2 == 0)
-                {
-                    newCol++;
-                }
-                else
-                {
-                    newCol--;
-                }
-
-                // If player goes out of bounds of a row,
-                // move it to the first column of the next row
-                if (newCol < 0)
-                {
-                    newCol = 0;
-                    newRow++;
-                }
-                else if (newCol >= board.GetLength(1))
-                {
-                    newCol = board.GetLength(1) - 1;
-                    newRow++;
-                }
-            }
-
-            // Set player position to new position
-            MovePlayerTo(board, player, newRow, newCol);
-        }
-        */
-
     }
 }
